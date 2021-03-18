@@ -1,0 +1,35 @@
+body {background-color: #EFF0F3!important}
+
+.container {
+  margin-top: 50px;
+  width: 25%!important;
+}
+
+form {
+  background: #2FCC9A;
+  border: 2px solid #228e6c;
+  border-radius: 10px;
+  padding: 20px 10px;
+  margin-bottom: 20px;
+}
+
+#contentForm {
+  width: 60%;
+  float: left;
+  margin-right: 5%;
+}
+
+.original{
+    font-size: 200%;
+}
+
+.translation{
+    width: 20px;
+    display: block;
+    font-size: 70%;
+    color: #b9b9b9;
+}
+
+.word{
+    display: inline-block;
+}
