@@ -1,6 +1,6 @@
 
   <link rel="stylesheet" href="css/style.css">
-
+<!-- <script src="js/main.js"></script> -->
 
 <?php
   $content = $_POST['contentForm'];
@@ -39,22 +39,26 @@
   }
 
 
-
-
+//
+//
 
 
         //show on screen
       echo ' <div class="obshchij">';
       foreach ($splittedContent as &$value) {
+          $clearedValue = strtolower(preg_replace('/[^a-z-]+/i', ' ', $value));
           echo '<div class="word">';
-          if($internalDictionaryArray[$value]){
-          echo '<div class="translation">'.$internalDictionaryArray[$value].'</div>';
+          if($internalDictionaryArray[$clearedValue]){
+          echo '<div class="translation">'.$internalDictionaryArray[$clearedValue].'</div>';
         }else{
-          $googleTranslatedValue = googleTranslation($value);
-          echo '<div class="translation">'.$googleTranslatedValue.'</div>';
+          $googleTranslatedValue = googleTranslation($clearedValue);
+          echo '<div class="translation">'.'<spun>'.$googleTranslatedValue.'++'.'</spun>'.'</div>';
+
+
 //add to DB unknown words
-$sql = "INSERT INTO internal_dictionary (en, ru) VALUES ('$value', '$googleTranslatedValue')";
-mysqli_query($link, $sql);
+
+          $sql = "INSERT INTO internal_dictionary (en, ru) VALUES ('$clearedValue', '$googleTranslatedValue')";
+          mysqli_query($link, $sql);
 
 
 

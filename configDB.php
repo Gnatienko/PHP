@@ -11,5 +11,5 @@
   if (!$link) {
     echo 'Не могу соединиться с БД. Код ошибки: ' . mysqli_connect_errno() . ', ошибка: ' . mysqli_connect_error();
     exit;
-  } else {echo 'db ok';}
+  } 
 ?>

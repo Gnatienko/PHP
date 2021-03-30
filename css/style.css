@@ -5,17 +5,31 @@ body {background-color: #EFF0F3!important}
   width: 25%!important;
 }
 
+textarea.form-control {
+    height: 80%!important;
+}
+
 form {
   background: #2FCC9A;
   border: 2px solid #228e6c;
   border-radius: 10px;
-  padding: 20px 10px;
+  padding: 10px 10px;
   margin-bottom: 20px;
+  margin: auto;
+  width: 50%;
+  height: 30%;
+  position: absolute;
+  left: 25%;
+  top: 10%;
 }
+
+.btn-align{
+  text-align: center;
+  margin: 20px ;
+};
 
 #contentForm {
   width: 60%;
-  float: left;
   margin-right: 5%;
 }
 
@@ -24,12 +38,16 @@ form {
 }
 
 .translation{
-    width: 20px;
+    width: 10px;
     display: block;
-    font-size: 70%;
+    font-size: 110%;
     color: #b9b9b9;
+    white-space: nowrap;
 }
 
 .word{
     display: inline-block;
+    background: #EFF0F3;
+
+box-shadow: -11px 0px 7px -5px #EFF0F3;
 }
