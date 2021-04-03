@@ -1,6 +1,10 @@
-
+<?php
+session_start();
+echo 'Hi, "'.$_SESSION['login'].'"';
+?>
+<a href="logout.php">Logout</a>
   <link rel="stylesheet" href="css/style.css">
-<!-- <script src="js/main.js"></script> -->
+
 
 <?php
   $content = $_POST['contentForm'];
@@ -16,13 +20,13 @@
 
       //getting internal dictionary from DB
   require 'configDB.php';
-  $sql = mysqli_query($link, 'SELECT * FROM `internal_dictionary`');
+  $sql = mysqli_query($connectionDB, 'SELECT * FROM `internal_dictionary`');
   while ($result = mysqli_fetch_array($sql)) {
     $internalDictionaryArray[$result['en']]=$result['ru'];
   }
 
 
-// google translation
+//  translation
   function googleTranslation ($toTranslate)
   {
     $translateApiURL = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q=';
@@ -32,38 +36,32 @@
   }
 
 
-  function internalTranslation($toTranslate, $dictionaryArray)
-  {
-    $internalTranslation = $dictionaryArray[$toTranslate];
-      return $internalTranslation;
-  }
-
 
 //
 //
 
 
         //show on screen
-      echo ' <div class="obshchij">';
-      foreach ($splittedContent as &$value) {
-          $clearedValue = strtolower(preg_replace('/[^a-z-]+/i', ' ', $value));
+      echo ' <div class="common">';
+      foreach ($splittedContent as &$word) {
+          $clearedWord = strtolower(preg_replace('/[^a-z-]+/i', ' ', $word));
           echo '<div class="word">';
-          if($internalDictionaryArray[$clearedValue]){
-          echo '<div class="translation">'.$internalDictionaryArray[$clearedValue].'</div>';
+          if($internalDictionaryArray[$clearedWord]){
+          echo '<div class="translation">'.$internalDictionaryArray[$clearedWord].'</div>';
         }else{
-          $googleTranslatedValue = googleTranslation($clearedValue);
+          $googleTranslatedValue = googleTranslation($clearedWord);
           echo '<div class="translation">'.'<spun>'.$googleTranslatedValue.'++'.'</spun>'.'</div>';
 
 
 //add to DB unknown words
 
-          $sql = "INSERT INTO internal_dictionary (en, ru) VALUES ('$clearedValue', '$googleTranslatedValue')";
-          mysqli_query($link, $sql);
+          $sql = "INSERT INTO internal_dictionary (en, ru) VALUES ('$clearedWord', '$googleTranslatedValue')";
+          mysqli_query($connectionDB, $sql);
 
 
 
         }
-          echo '<div  class="original">'. $value.'&nbsp'.'</div>';
+          echo '<div  class="original">'. $word.'&nbsp'.'</div>';
           echo '</div>';
           }
           echo ' </div>';

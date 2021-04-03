@@ -11,10 +11,17 @@
 
  </head>
  <body>
+    <div>
+        <?php
+        session_start();
+        echo 'Hi, "'.$_SESSION['login'].'"';
+        ?>
+        <a href="logout.php">Logout</a>
+    </div>
 
    <div>
-     <form action="/text_upload.php" method="post">
-       <textarea  name="contentForm" id="contentForm" placeholder="Please insert text" class="form-control"></textarea>
+     <form action="/text_processing.php" method="post">
+       <textarea  name="contentForm" id="contentForm" placeholder='Please insert text and press "Upload"' class="form-control"></textarea>
        <div class="btn-align">
          <button type="submit" name="Upload_text" class="btn btn-success">Upload</button>
        </div>
@@ -23,19 +30,6 @@
 
 
    </div>
-   <div>
-     <?php
-     require 'processing.php'
-
-     ?>
-
-
-   </div>
-
-
-
-
-
 
  </body>
 </html>

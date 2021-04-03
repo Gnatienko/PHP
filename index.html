@@ -1,0 +1,49 @@
+
+
+
+
+
+<?php
+    //  вся процедура работает на сессиях. Именно в ней хранятся данные  пользователя, пока он находится на сайте. Очень важно запустить их в  самом начале странички!!!
+    session_start();
+    ?>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Главная страница</h2>
+<form action="log_or_reg.php" method="post">
+
+   <p>
+        <label>Ваш логин:<br></label>
+        <input name="login" type="text" size="15" maxlength="15">
+    </p>
+
+    <p>
+        <label>Ваш пароль:<br></label>
+        <input name="password" type="password" size="15" maxlength="15">
+    </p>
+    <p>
+        <input type="submit" name="submit" value="Войти">
+   <br>
+        <!--**** ссылка на регистрацию, ведь как-то же должны гости туда попадать ***** -->
+        <a href="reg_form.html">Зарегистрироваться</a>
+    </p></form>
+<br>
+<?php
+
+    if (empty($_SESSION['login']) or empty($_SESSION['id']))
+    {
+
+    echo "Вы вошли на сайт, как гость";
+}
+else
+{
+
+echo "Вы вошли на сайт, как ".$_SESSION['login'].";
+}
+?>
+</body>
+</html>
