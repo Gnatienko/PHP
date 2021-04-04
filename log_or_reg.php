@@ -17,12 +17,12 @@ if ($login=='' or $password=='') {
     if (isset($usersArray[$login])){
        if ($usersArray[$login]==$password){
             $_SESSION['login']=$login;
-            echo 'authorisation success your login is "'.$_SESSION['login'].'"';
-           header('Refresh: 2; url= start_form.php');
+            echo 'Successful authorization your login is "'.$_SESSION['login'].'" <a href="input_text_form.php">Go...</a>';
+           header('Refresh: 2; url= input_text_form.php');
 
        }
        else {
-           echo "password is incorrect";
+           echo "password is incorrect <a href='index.html'>Go...</a> ";
            header('Refresh: 2; url= index.html');
 
             }
@@ -32,8 +32,8 @@ if ($login=='' or $password=='') {
         $sql = "INSERT INTO users (login, password) VALUES ('$login', '$password')";
         mysqli_query($connectionDB, $sql);
         $_SESSION['login']=$login;
-        echo 'Hi, "'.$_SESSION['login'].'" thank you for registration';
-        header('Refresh: 2; url= start_form.php');
+        echo 'Hi, "'.$_SESSION['login'].'" thank you for registration <a href="input_text_form.php">Go...</a>';
+        header('Refresh: 2; url= input_text_form.php');
     }
 }
 
