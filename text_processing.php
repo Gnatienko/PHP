@@ -23,7 +23,21 @@ echo 'Hi, "'.$_SESSION['login'].'"';
   $sql = mysqli_query($connectionDB, 'SELECT * FROM `internal_dictionary`');
   while ($result = mysqli_fetch_array($sql)) {
     $internalDictionaryArray[$result['en']]=$result['ru'];
+    $rank[$result['en']]=$result['rank'];
   }
+
+  //getting users setting
+$login = $_SESSION['login'];
+$sql = mysqli_query($connectionDB, "SELECT * FROM `users` WHERE login='$login'");
+while ($result = mysqli_fetch_array($sql)) {
+    $userId = $result['id'];
+}
+
+$sql = mysqli_query($connectionDB, "SELECT * FROM `users_settings` WHERE user_id='$userId'");
+while ($result = mysqli_fetch_array($sql)) {
+    $userSetting[knownWordsIndex] = $result['known_words_index'];
+}
+
 
 
 //  translation
@@ -32,7 +46,12 @@ echo 'Hi, "'.$_SESSION['login'].'"';
     $translateApiURL = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q=';
     $translateApiResponse = file_get_contents($translateApiURL.$toTranslate);
     $translation = json_decode($translateApiResponse)[0][0][0];
-    return $translation;
+    if($translation<>''){
+        return $translation;
+    }else{
+        return 'error';
+    }
+
   }
 
 
@@ -43,19 +62,26 @@ echo 'Hi, "'.$_SESSION['login'].'"';
 
         //show on screen
       echo ' <div class="common">';
-      foreach ($splittedContent as &$word) {
-          $clearedWord = strtolower(preg_replace('/[^a-z-]+/i', ' ', $word));
+      foreach ($splittedContent as $word) {
+
+          $clearedWord = strtolower(preg_replace('/[^a-z-]+/i', '', $word));
           echo '<div class="word">';
           if($internalDictionaryArray[$clearedWord]){
-          echo '<div class="translation">'.$internalDictionaryArray[$clearedWord].'</div>';
-        }else{
+              if($rank[$clearedWord]>$userSetting[knownWordsIndex] or  $rank[$clearedWord] == 0 ) {
+                  echo '<div class="translation">' . $internalDictionaryArray[$clearedWord] . '</div>';
+              }
+              else{
+                  echo '<div class="translation">' . '-' . '</div>';
+              }
+          }
+          else{
           $googleTranslatedValue = googleTranslation($clearedWord);
           echo '<div class="translation">'.'<spun>'.$googleTranslatedValue.'++'.'</spun>'.'</div>';
 
 
 //add to DB unknown words
 
-          $sql = "INSERT INTO internal_dictionary (en, ru) VALUES ('$clearedWord', '$googleTranslatedValue')";
+          $sql = "INSERT INTO internal_dictionary (rank, en, ru) VALUES (0,'$clearedWord', '$googleTranslatedValue')";
           mysqli_query($connectionDB, $sql);
 
 

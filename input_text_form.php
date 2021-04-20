@@ -20,8 +20,10 @@
     </div>
 
    <div>
-     <form action="/text_processing.php" method="post">
-       <textarea  name="contentForm" id="contentForm" placeholder='Please insert text and press "Upload"' class="form-control"></textarea>
+<!--     <form action="/text_processing.php" method="post">
+-->         <form action="/text_processing.php" method="post">
+
+         <textarea  name="contentForm" id="contentForm" placeholder='Please insert text and press "Upload"' class="form-control"></textarea>
        <div class="btn-align">
          <button type="submit" name="Upload_text" class="btn btn-success">Upload</button>
        </div>
